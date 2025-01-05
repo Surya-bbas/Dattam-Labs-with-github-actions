@@ -1,30 +1,26 @@
 import * as React from 'react';
 import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-const TableOfContents = () => {
-  const { scrollY } = useScroll();
+const TableOfContents = ({activeSection}) => {
+  
   
 
-  const y = useTransform(scrollY, 
-    [0, 500], 
-    [40, 30]   
-  );
 
   const menuItems = [
     { title: 'Introduction', link: '#introduction' },
     { title: 'Getting Started', link: '#getting-started' },
     { title: 'Advanced Topics', link: '#advanced-topics' },
     { title: 'Best Practices', link: '#best-practices' },
-    { title: 'Conclusion', link: '#conclusion' }
+    { title: 'Conclusion', link: '#conclusion' },
+
   ];
 
   return (
     <motion.div
-      style={{
-        y,
+      style={{        
         position: 'sticky',
-        top: 40, 
+        top: 80, 
         width: '100%'
       }}
       initial={{ opacity: 0, y: 20 }}
@@ -33,8 +29,7 @@ const TableOfContents = () => {
     >
       <Box 
         sx={{ 
-          width: '100%',
-          bgcolor: 'background.paper',
+          width: '100%',          
           borderRadius: 2,
           boxShadow: '0 0 10px rgba(0,0,0,0.1)',
           p: 2
@@ -63,17 +58,26 @@ const TableOfContents = () => {
               <ListItem
                 component="a"
                 href={item.link}
+                onClick={() => document.getElementById(item.link).scrollIntoView({ behavior: "smooth" })}
                 sx={{
                   p: 1,
-                  '&:hover': {
-                    bgcolor: 'rgba(0, 0, 0, 0.04)',
+                  '&:hover': {                    
                     borderRadius: 1
                   },
                   textDecoration: 'none',
                   color: 'inherit'
                 }}
               >
-                <ListItemText primary={item.title} />
+                <ListItemText 
+                  primary={item.title} 
+                  sx={{ 
+                    backgroundColor: activeSection === item.link ? 'primary.main' : '', 
+                    color: activeSection === item.link ? 'white' : '', 
+                    borderRadius: 1, 
+                    p: 1, 
+                    transition: 'background-color 0.3s ease' 
+                  }} 
+                />
               </ListItem>
             </motion.div>
           ))}

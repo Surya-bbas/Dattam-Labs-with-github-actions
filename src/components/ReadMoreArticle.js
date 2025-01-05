@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 const ReadMoreArticle = () => {
@@ -23,7 +23,7 @@ const ReadMoreArticle = () => {
       style={{
         y,
         position: 'sticky',
-        top: 500, 
+        top:500,
         width: '100%'
       }}
       initial={{ opacity: 0, y: 20 }}
@@ -32,8 +32,7 @@ const ReadMoreArticle = () => {
     >
       <Box 
         sx={{ 
-          width: '100%',
-          bgcolor: 'background.paper',
+          width: '100%',          
           borderRadius: 2,
           boxShadow: '0 0 10px rgba(0,0,0,0.1)',
           p: 2
@@ -51,7 +50,7 @@ const ReadMoreArticle = () => {
         >
           Similar articles
         </Typography>
-        <List component="nav" sx={{ p: 0 }}>
+        <Box  sx={{ p: 0 }}>
           {menuItems.map((item, index) => (
             <motion.div
               key={index}
@@ -63,7 +62,6 @@ const ReadMoreArticle = () => {
                 sx={{
                   p: 1,
                   '&:hover': {
-                    bgcolor: 'rgba(0, 0, 0, 0.04)',
                     borderRadius: 1
                   },
                   textDecoration: 'none',
@@ -79,7 +77,7 @@ const ReadMoreArticle = () => {
               </div>
             </motion.div>
           ))}
-        </List>
+        </Box>
       </Box>
     </motion.div>
   );

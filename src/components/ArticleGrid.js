@@ -14,6 +14,7 @@ const articleData = {
   ]
 };
 
+
 const ArticleCard = () => {
   return (
     <Box sx={{ mb: 6,  maxWidth:{md:500,lg:700}}}>
