@@ -1,5 +1,5 @@
 # Preview
 
-![alt text](screely-1736117053772.png)
+![screely-1736117471336](https://github.com/user-attachments/assets/e9d4bbef-0b5f-4b59-9a9e-d98a3a5e085a)
 
-![alt text](screely-1736117140000.png)
+![screely-1736117434326](https://github.com/user-attachments/assets/fe5e2977-f29f-4270-a335-b4bca222987e)
