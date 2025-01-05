@@ -11,7 +11,7 @@ import ReadMoreArticle from '@/components/ReadMoreArticle';
 import { useEffect, useState } from 'react';
 
 const menuItems = [
-  { title: 'Introduction', link: '#introduction' },
+  { title: 'Introductions', link: '#introduction' },
   { title: 'Getting Started', link: '#getting-started' },
   { title: 'Advanced Topics', link: '#advanced-topics' },
   { title: 'Best Practices', link: '#best-practices' },
