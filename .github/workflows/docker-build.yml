@@ -29,3 +29,5 @@ jobs:
         with:
           context: .
           push: true
+          tags: |
+            surya22119/custom-nextjs-prod:latest
