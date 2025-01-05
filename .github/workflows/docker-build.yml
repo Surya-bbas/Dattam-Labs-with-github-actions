@@ -29,8 +29,3 @@ jobs:
         with:
           context: .
           push: true
-          tags: |
-            surya22119/custom-nextjs-prod:latest
-            surya22119/custom-nextjs-prod:${{ github.sha }}
-          cache-from: type=registry,ref=surya22119/custom-nextjs-prod:latest
-          cache-to: type=inline
