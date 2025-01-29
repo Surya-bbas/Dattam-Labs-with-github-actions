@@ -18,12 +18,16 @@ jobs:
       - name: Extract version
         id: version
         run: |
+          # For tags
           if [[ $GITHUB_REF == refs/tags/* ]]; then
-            echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+            echo "TAG_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+            echo "BRANCH_VERSION=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+            echo "IS_TAG=true" >> $GITHUB_OUTPUT
           else
-            echo "VERSION=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+            # For branches
+            echo "BRANCH_VERSION=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+            echo "IS_TAG=false" >> $GITHUB_OUTPUT
           fi    
-
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -34,11 +38,27 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image for branch
+        if: steps.version.outputs.IS_TAG == 'false'
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
+          cache-from: type=registry,ref=surya22119/custom-nextjs-prod:buildcache
+          cache-to: type=registry,ref=surya22119/custom-nextjs-prod:buildcache,mode=max
           tags: |
-            surya22119/custom-nextjs-prod:${{ steps.version.outputs.VERSION }}
+            surya22119/custom-nextjs-prod:${{ steps.version.outputs.BRANCH_VERSION }}
+            surya22119/custom-nextjs-prod:latest
+
+      - name: Build and push Docker image for tag
+        if: steps.version.outputs.IS_TAG == 'true' 
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          cache-from: type=registry,ref=surya22119/custom-nextjs-prod:buildcache
+          cache-to: type=registry,ref=surya22119/custom-nextjs-prod:buildcache,mode=max
+          tags: |
+            surya22119/custom-nextjs-prod:${{ steps.version.outputs.TAG_VERSION }}
+            surya22119/custom-nextjs-prod:${{ steps.version.outputs.BRANCH_VERSION }}
             surya22119/custom-nextjs-prod:latest
