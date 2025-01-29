@@ -3,14 +3,10 @@ name: Build and Push to ECR
 on:
   push:
     branches:
-      - main
+
 
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version tag for the image eg: v1.23.4'
-        required: true
-        default: ''
+
 
 
 jobs:
