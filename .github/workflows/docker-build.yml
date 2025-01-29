@@ -42,7 +42,7 @@ jobs:
         with:
           context: .
           push: true
-          platform: linux/arm64
+          platform: linux/arm64/v8
           cache-from: type=registry,ref=surya22119/custom-nextjs-prod:buildcache
           cache-to: type=registry,ref=surya22119/custom-nextjs-prod:buildcache,mode=max
           tags: |
