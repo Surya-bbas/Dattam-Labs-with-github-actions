@@ -21,6 +21,7 @@ jobs:
           if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then            
             if [[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo "TAG_NAME=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+              echo "IS_RELEASE=true" >> $GITHUB_ENV
             else
               echo "Error: Use proper semantic versioning for tags (e.g., v1.0.0)"
               echo "Provided values:"
@@ -32,6 +33,7 @@ jobs:
           else
             echo "This is not a tag. Proceeding with staging."
             echo "TAG_NAME=staging" >> $GITHUB_OUTPUT
+            echo "IS_RELEASE=false" >> $GITHUB_ENV
           fi
 
       - name: Checkout code
@@ -46,16 +48,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker image for branch        
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          platform: linux/arm64/v8
-          cache-from: type=registry,ref=surya22119/custom-nextjs-prod:buildcache
-          cache-to: type=registry,ref=surya22119/custom-nextjs-prod:buildcache,mode=max
+          platforms: linux/arm64
           tags: |
             surya22119/custom-nextjs-prod:${{ steps.tag.outputs.TAG_NAME }}
-            surya22119/custom-nextjs-prod:latest
+            ${{ env.IS_RELEASE == 'true' && 'surya22119/custom-nextjs-prod:latest' || '' }}
 
 
